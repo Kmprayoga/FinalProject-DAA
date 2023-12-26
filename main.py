@@ -1,54 +1,60 @@
 import streamlit as st
-
-from kamus import Dictionary, insert, search_by_prefix_helper, save_dictionary, read_dictionary_from_file, view_helper
 from PIL import Image
 
-gambar = Image.open("logoDAA.PNG")
+from kamus import (Dictionary, insert, view_helper, search_by_prefix, search_by_prefix_helper, save_dictionary, read_dictionary_from_file)
 
-# Load kamus dari file
-root = None
-filename = 'kamus.txt'
-root: None = read_dictionary_from_file(filename, root)
 
-# Fungsi untuk mendapatkan semua kata dalam bentuk string
-def get_all_words(node):
-    words = []
-    view_helper(node, words)
-    return '\n'.join(words)
+def main():
+    col1, col2, col3 = st.columns([1, 1, 1])
+    with col2:
+        img = Image.open("logoDAA.png")
+    st.image(
+        img,
+        caption="",
+        width=400,
+        channels="RGB"
+    )
+    st.title('Y Dictionary App')
+    filename = 'kamus.txt'
+    root = None
+    root = read_dictionary_from_file(filename, root)
 
-# Judul aplikasi
-st.title('Kamus Streamlit')
+    action = st.sidebar.selectbox("Choose an action", ["View Dictionary", "Search by Prefix", "Insert Word", "Save to File"])
 
-# Form untuk menambahkan kata baru
-with st.form("add_word_form"):
-    st.write("Tambahkan Kata Baru")
-    new_word = st.text_input("Kata").lower()
-    new_meaning = st.text_area("Arti")
-    submitted = st.form_submit_button("Tambahkan")
-    if submitted and new_word and new_meaning:
-        root = insert(root, Dictionary(new_word, new_meaning))
-        st.success(f'Kata "{new_word}" telah ditambahkan!')
+    if action == "View Dictionary":
+        words = []
+        view_helper(root, words)
+        if words:
+            for word in words:
+                st.text(word)
+        else:
+            st.write("Dictionary is empty")
 
-# Pencarian berdasarkan prefiks
-prefix = st.text_input("Cari Kata dengan Prefiks")
-if prefix:
-    results = []
-    search_by_prefix_helper(root, prefix.lower(), results)
-    if results:
-        for word, meaning in results:
-            st.text(f"{word}: {meaning}")
-    else:
-        st.write("Tidak ada kata yang ditemukan dengan prefiks tersebut.")
+    elif action == "Search by Prefix":
+        prefix = st.text_input("Enter prefix")
+        if st.button("Search"):
+            results = []
+            search_by_prefix_helper(root, prefix, results)
+            if results:
+                for word, meaning in results:
+                    st.text(f"{word}: {meaning}")
+            else:
+                st.write("No words found with the given prefix")
 
-# Menampilkan seluruh kamus
-if st.button("Tampilkan Seluruh Kamus"):
-    all_words = get_all_words(root)
-    st.text_area("Kamus", all_words, height=300)
+    elif action == "Insert Word":
+        word = st.text_input("Word")
+        meaning = st.text_input("Meaning")
+        if st.button("Insert"):
+            if word and meaning:
+                temp = Dictionary(word, meaning)
+                root = insert(root, temp)  # **Assign the updated root**
+                st.success("Word inserted successfully")
+                save_dictionary(root, filename)  # **Save immediately (optional)**
 
-# Menyimpan perubahan ke file
-if st.button("Simpan Perubahan ke File"):
-    save_dictionary(root, filename)
-    st.success("Perubahan telah disimpan ke file.")
+    elif action == "Save to File":
+        if st.button("Save"):
+            save_dictionary(root, filename)
+            st.success("Dictionary saved to file")
 
-# Footer
-st.caption("Aplikasi Kamus dengan Streamlit")
+if __name__ == "__main__":
+    main()
