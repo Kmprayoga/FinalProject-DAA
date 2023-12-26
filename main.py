@@ -34,6 +34,7 @@ def main():
         prefix = st.text_input("Enter prefix")
         if st.button("Search"):
             results = []
+            prefix = prefix.lower()
             search_by_prefix_helper(root, prefix, results)
             if results:
                 for word, meaning in results:
