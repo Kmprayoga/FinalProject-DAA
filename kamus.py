@@ -29,7 +29,7 @@ def insert(root, temp):
         elif temp.word > root.word:
             root.right = insert(root.right, temp)
 
-    print(f"Inserted {temp.word}, Current Root: {root.word}")  # Tambahkan ini
+    print(f"masukkan {temp.word}, kata saat ini: {root.word}")  # Tambahkan ini
     return root
 
 def search_by_prefix(root, prefix):
@@ -37,9 +37,9 @@ def search_by_prefix(root, prefix):
     prefix = prefix.lower()  # Menormalisasi prefiks menjadi huruf kecil
     search_by_prefix_helper(root, prefix, results)
     if not results:
-        print("\nNo words found with the given prefix")
+        print("\nKata Tidak Ditemukan")
     else:
-        print("\nWords found:")
+        print("\nKata Ditemukan:")
         for word, meaning in results:
             print(f"{word}: {meaning}")
 
@@ -79,8 +79,8 @@ def read_dictionary_from_file(filename, root):
                     new_word = Dictionary(word, meaning)
                     root = insert(root, new_word)
 
-        print(f"Read from file, Current Root: {root.word}")  # Tambahkan ini
+        print(f"Membaca file, kata saat ini: {root.word}")  # Tambahkan ini
         return root
     except FileNotFoundError:
-        print("File not found")
+        print("File tidak ditemukan")
     return root
