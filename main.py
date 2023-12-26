@@ -14,25 +14,25 @@ def main():
         width=400,
         channels="RGB"
     )
-    st.title('Y Dictionary App')
+    st.title('A-Z Dictionary App')
     filename = 'kamus.txt'
     root = None
     root = read_dictionary_from_file(filename, root)
 
-    action = st.sidebar.selectbox("Choose an action", ["View Dictionary", "Search by Prefix", "Insert Word", "Save to File"])
+    action = st.sidebar.selectbox("Pilih menu ", ["Lihat Dictionary", "Cari Kata", "Tambah Kata", "Simpan ke File"])
 
-    if action == "View Dictionary":
+    if action == "Lihat Dictionary":
         words = []
         view_helper(root, words)
         if words:
             for word in words:
                 st.text(word)
         else:
-            st.write("Dictionary is empty")
+            st.write("Dictionary Kosong")
 
-    elif action == "Search by Prefix":
-        prefix = st.text_input("Enter prefix")
-        if st.button("Search"):
+    elif action == "Cari kata":
+        prefix = st.text_input("Masukkan Huruf")
+        if st.button("Cari"):
             results = []
             prefix = prefix.lower()
             search_by_prefix_helper(root, prefix, results)
@@ -40,22 +40,22 @@ def main():
                 for word, meaning in results:
                     st.text(f"{word}: {meaning}")
             else:
-                st.write("No words found with the given prefix")
+                st.write("Tidak kata yang ditemukan")
 
-    elif action == "Insert Word":
-        word = st.text_input("Word")
-        meaning = st.text_input("Meaning")
-        if st.button("Insert"):
+    elif action == "Tambah kata":
+        word = st.text_input("kata")
+        meaning = st.text_input("arti")
+        if st.button("Tambah Kata"):
             if word and meaning:
                 temp = Dictionary(word, meaning)
                 root = insert(root, temp)  # **Assign the updated root**
-                st.success("Word inserted successfully")
+                st.success("Kata berhasil ditambahkan")
                 save_dictionary(root, filename)  # **Save immediately (optional)**
 
-    elif action == "Save to File":
-        if st.button("Save"):
+    elif action == "Simpan ke File":
+        if st.button("Simpan"):
             save_dictionary(root, filename)
-            st.success("Dictionary saved to file")
+            st.success("Dictionary berhasil disimpan ke file")
 
 if __name__ == "__main__":
     main()
