@@ -5,21 +5,6 @@ class Dictionary:
         self.word = word.lower()
         self.meaning = meaning
 
-def check(a, b):
-    i, j = 0, 0
-    while i < len(a) and j < len(b):
-        if a[i] > b[j]:
-            return 1
-        elif b[j] > a[i]:
-            return -1
-        i += 1
-        j += 1
-    if len(a) > len(b):
-        return 1
-    elif len(b) > len(a):
-        return -1
-    return 0
-
 def insert(root, temp):
     if root is None:
         return temp
