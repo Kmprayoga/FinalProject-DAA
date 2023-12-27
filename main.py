@@ -48,9 +48,9 @@ def main():
         if st.button("Tambah Kata"):
             if word and meaning:
                 temp = Dictionary(word, meaning)
-                root = insert(root, temp)  # **Assign the updated root**
+                root = insert(root, temp)  
                 st.success("Kata berhasil ditambahkan")
-                save_dictionary(root, filename)  # **Save immediately (optional)**
+                save_dictionary(root, filename)  
 
     elif action == "Simpan ke File":
         if st.button("Simpan"):
