@@ -14,7 +14,7 @@ def insert(root, temp):
         elif temp.word > root.word:
             root.right = insert(root.right, temp)
 
-    print(f"masukkan {temp.word}, kata saat ini: {root.word}")  # Tambahkan ini
+    print(f"masukkan {temp.word}, kata saat ini: {root.word}") 
     return root
 
 def search_by_prefix(root, prefix):
@@ -64,7 +64,7 @@ def read_dictionary_from_file(filename, root):
                     new_word = Dictionary(word, meaning)
                     root = insert(root, new_word)
 
-        print(f"Membaca file, kata saat ini: {root.word}")  # Tambahkan ini
+        print(f"Membaca file, kata saat ini: {root.word}") 
         return root
     except FileNotFoundError:
         print("File tidak ditemukan")
